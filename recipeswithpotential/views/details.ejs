@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+
+<body>
+    <%- include('./partials/nav.ejs') %>
+   <div>
+       <h2> <%= recipe.name%> </h2>
+       <h6><a href="<%= recipe.url%>" target="_blank"> Click to visit website </a></h6>
+       <div class="content">
+           <p><%=recipe.notes%></p>
+       </div>
+       <button class="delete" data-doc="<%=recipe._id%>">Delete Recipe</button>
+   </div>
+   <%- include('./partials/footer.ejs') %>
+<script>
+    const something = document.querySelector('button.delete');
+    something.addEventListener('click', (e) => {
+        const endpoint = `/recipes/${something.dataset.doc}`;
+        fetch(endpoint, {
+            method: 'DELETE'
+        })
+        .then((response)=> response.json())
+        .then((data)=> window.location.href = data.redirect)
+        .catch((err)=>console.log(err));
+    })
+</script>
+</body>
+</html>
